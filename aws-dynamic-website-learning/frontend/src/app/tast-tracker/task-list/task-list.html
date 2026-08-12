@@ -1,1 +1,17 @@
-<p>task-list works!</p>
+<div class="task-container">
+  <h2>Cloud Task Tracker</h2>
+  
+  <!-- Input Section -->
+  <div class="input-group">
+    <input #taskInput placeholder="Enter a new task..." (keyup.enter)="addTask(taskInput)" />
+    <button (click)="addTask(taskInput)">Add Task</button>
+  </div>
+
+  <!-- Task List -->
+  <ul class="task-list">
+    <li *ngFor="let t of tasks" class="task-item">
+      <span>{{ t.title }}</span>
+      <button class="delete-btn" (click)="deleteTask(t.taskId)">Delete</button>
+    </li>
+  </ul>
+</div>

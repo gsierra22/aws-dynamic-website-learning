@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-const { DynamoDBDocumentClient, ScanCommand, PutCommand } = require('@aws-sdk/lib-dynamodb');
+const { DynamoDBDocumentClient, ScanCommand, PutCommand, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
 
 const app = express();
 app.use(cors());
@@ -32,5 +32,20 @@ app.post('/api/tasks', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.delete('/api/tasks/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await docClient.send(new DeleteCommand({
+      TableName: 'Tasks',
+      Key: { taskId: id }
+    }));
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 app.listen(3000, () => console.log('Server running on port 3000'));
