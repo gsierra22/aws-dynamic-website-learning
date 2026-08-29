@@ -1,11 +1,22 @@
 #!/bin/bash
-cd /var/www/aws-dynamic-website-learning/backend
+set -e
+
+# Define root directory
+APP_DIR="/var/www/aws-dynamic-website-learning"
+
+# Ensure directory exists
+mkdir -p $APP_DIR
+
+# 1. Install Backend Dependencies
+cd $APP_DIR/backend
 npm install
-cd /var/www/aws-dynamic-website-learning/frontend
+
+# 2. Install Frontend Dependencies & Build Angular
+cd $APP_DIR/frontend
 npm install
 npm run build -- --configuration production
 
-# Install PM2 globally if not present and restart app
+# 3. Start Express Server with PM2
+cd $APP_DIR/backend
 npm install -g pm2
-cd /var/www/aws-dynamic-website-learning/backend
 pm2 restart all || pm2 start index.js --name "todo-backend"
