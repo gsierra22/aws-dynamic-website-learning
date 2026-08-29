@@ -3,6 +3,7 @@ os: linux
 files:
   - source: /
     destination: /var/www/aws-dynamic-website-learning
+file_exists_behavior: OVERWRITE
 hooks:
   ApplicationStart:
     - location: scripts/start_server.sh
